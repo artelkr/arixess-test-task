@@ -17,6 +17,10 @@
     </div>
     @endif
 
+    @cannot('save-feedback')
+    <h3>You have already applied today!</h3>
+    @endcannot
+
     <form action="{{ route('save-feedback') }}" method="post" enctype="multipart/form-data">
         @csrf
 
@@ -36,6 +40,6 @@
             <input type="file" name="file">
         </label>
 
-        <button type="submit">Send</button>
+        <button type="submit" @cannot('save-feedback') disabled @endcannot>Send</button>
     </form>
 </x-app-layout>

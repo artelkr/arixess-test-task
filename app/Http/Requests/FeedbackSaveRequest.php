@@ -14,7 +14,7 @@ class FeedbackSaveRequest extends FormRequest
      */
     public function authorize()
     {
-        return Gate::denies('view-admin-panel');
+        return Gate::denies('view-admin-panel') && Gate::allows('save-feedback');
     }
 
     /**
