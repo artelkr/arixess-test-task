@@ -26,7 +26,8 @@ class ManagerUserSeeder extends Seeder
         User::factory()->makeOne([
             'name' => $name,
             'password' => Hash::make(env('MANAGER_PASSWORD')),
-            'email' => $email, /* TODO: domain from env */
+            'email' => $email,
+            'role' => User::ROLE_MANAGER,
         ])->save();
     }
 }
