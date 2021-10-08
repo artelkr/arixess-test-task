@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Feedback;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -15,6 +16,13 @@ class DashboardController extends Controller
      */
     public function index(Request $request)
     {
-        return view('admin.dashboard');
+        $feedbacks = Feedback::query()
+            ->with(['user', 'manager'])
+            ->oldest()
+            ->get();
+
+        return view('admin.dashboard', [
+            'feedbacks' => $feedbacks
+        ]);
     }
 }

@@ -11,12 +11,6 @@
     </ul>
     @endif
 
-    @if(session('status'))
-    <div @class([session('status')['type']])>
-        {{ session('status')['text'] }}
-    </div>
-    @endif
-
     @cannot('save-feedback')
     <h3>You have already applied today!</h3>
     @endcannot

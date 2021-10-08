@@ -25,6 +25,12 @@
         </form>
     </nav>
 
+    @if(session('status'))
+    <div @class([session('status')['type']])>
+        {{ session('status')['text'] }}
+    </div>
+    @endif
+
     <main>
         {{ $slot }}
     </main>
