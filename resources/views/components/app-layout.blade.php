@@ -10,7 +10,9 @@
 
 <body>
     <nav>
+        @cannot('view-admin-panel')
         <a href="{{ route('home') }}">Home</a>
+        @endcannot
 
         @can('view-admin-panel')
         <a href="{{ route('admin-panel') }}">Admin Panel</a>
