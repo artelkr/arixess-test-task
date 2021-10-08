@@ -1,18 +1,14 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Middleware\VerifyManager;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+/* Common user routes */
+Route::get('/', DashboardController::class)->name('home');
 
-Route::get('/', function () {
-    return view('welcome');
+/* Manager routes */
+Route::middleware([VerifyManager::class])->group(function () {
+    Route::get('admin-panel', [AdminDashboardController::class, 'index'])->name('admin-panel');
 });
