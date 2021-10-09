@@ -3,9 +3,13 @@
 namespace App\Actions;
 
 use App\Exceptions\FeedbackSaveException;
+use App\Models\Feedback;
+use App\Models\User;
+use App\Notifications\FeedbackArrivedNotification;
 use Exception;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 
 final class AddFeedback
@@ -37,8 +41,11 @@ final class AddFeedback
             ]);
 
             $feedback->saveOrFail();
+            $feedback = $feedback->refresh();
 
-            return $feedback->refresh();
+            $this->notify($feedback);
+
+            return $feedback;
         } catch (Exception $e) {
             /* Удалить файл, если что-то пошло не так при сохранении заявки. */
             if ($file !== null) Storage::delete($file);
@@ -58,5 +65,12 @@ final class AddFeedback
         }
 
         return $status;
+    }
+
+    private function notify(Feedback $feedback): void
+    {
+        $managers = User::managers()->get();
+
+        Notification::send($managers, new FeedbackArrivedNotification($feedback));
     }
 }
