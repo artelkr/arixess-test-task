@@ -50,7 +50,7 @@ class FeedbackArrivedNotification extends Notification implements ShouldQueue
         );
 
         if (!blank($this->feedback->file_path)) {
-            // $mail->attach(Storage::path($this->feedback->file_path));
+            $mail->attach(Storage::disk('public')->path($this->feedback->file_path));
         }
 
         return $mail;
